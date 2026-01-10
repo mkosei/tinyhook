@@ -11,10 +11,14 @@ func main() {
 	e := echo.New()
 
 	// Middlewareを登録
-	e.Use(middleware.CaptureBodyMiddleware())
+	e.Use(middleware.CaptureWebhook())
 
 	// Webhook受信エンドポイント
-	e.POST("/hooks/:provider", handler.ReceiveWebhook)
+	e.POST(
+		"/hooks/:provider",
+		handler.ReceiveWebhook,
+		middleware.CaptureWebhook(),
+	)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
