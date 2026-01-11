@@ -61,7 +61,7 @@ go run . serve --addr :8080 --tail
 
 This starts the webhook receiver and displays incoming events live, like tail -f logs.
 
-2️⃣ Send a test webhook
+2️⃣ Send a test webhook locally
 ```
 curl -X POST http://localhost:8080/hooks/github \
   -H "X-GitHub-Event: push" \
@@ -81,4 +81,37 @@ go run . serve --addr :8080
 - No live output will appear
 
 - Can later inspect events via CLI or implement replay
+
+## 🌐 Testing with real GitHub Webhooks
+
+GitHub cannot directly send webhooks to `localhost`. To test with actual GitHub events:
+
+1. **Install ngrok:** [https://ngrok.com/](https://ngrok.com/)
+
+2. **Expose your local server:**
+
+```bash
+ngrok http 8080
+```
+
+1. **Copy the Forwarding URL** (e.g., `https://abcd1234.ngrok.io`)
+
+2. **In your GitHub repository:**
+   - Go to **Settings → Webhooks → Add webhook**
+   - **Payload URL:** `https://abcd1234.ngrok.io/hooks/github`
+   - **Content type:** `application/json`
+   - Choose which events to trigger (e.g., `push`)
+   - Click **Add webhook**
+
+3. **Trigger a webhook:**  
+   Now push commits or trigger events in GitHub → they will appear in your tinyhook terminal (if `--tail` is enabled).
+
+---
+
+### 📝 Notes
+
+- ngrok URLs are temporary; they change each time you start ngrok  
+- For production-like testing, consider using a fixed domain or tunnel  
+- Secrets can be used for verifying GitHub webhook payloads
+
 
