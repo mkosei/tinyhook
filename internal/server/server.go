@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"webhook-receiver/internal/handler"
 	"webhook-receiver/internal/middleware"
 	"webhook-receiver/internal/model"
@@ -9,10 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func main() {
+func Start(addr string, store *store.MemoryStore) {
 	e := echo.New()
-
-	store := store.NewMemoryStore()
 
 	e.Use(middleware.CaptureWebhook())
 
@@ -36,5 +35,10 @@ func main() {
 		return c.JSON(200, event)
 	})
 
-	e.Logger.Fatal(e.Start(":8080"))
+	log.Printf("🚀 Listening on %s\n", addr)
+	if err := e.Start(addr); err != nil {
+		log.Fatal(err)
+	}
+
+	e.Start(addr)
 }

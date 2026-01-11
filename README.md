@@ -46,3 +46,35 @@ Request
   - Just consume Event
   ↓
 Response
+
+## ⚡ Quick Start
+
+### 1️⃣ Run server with live tail
+
+```bash
+go run . serve --addr :8080 --tail
+
+- `--addr` : Listen address (default `:8080`)  
+- `--tail` : Real-time output of incoming webhooks in the terminal  
+
+This starts the webhook receiver **and** displays incoming events live, like `tail -f` logs.
+
+---
+
+### 2️⃣ Send a test webhook
+
+```bash
+curl -X POST http://localhost:8080/hooks/github \
+  -H "X-GitHub-Event: push" \
+  -d '{"ref":"main"}'
+
+### 3️⃣ Run server without live tail
+
+```bash
+go run . serve --addr :8080
+
+- Webhooks are still received and stored in memory
+- No live output will appear
+- Can later inspect events via CLI or implement replay
+
+
