@@ -47,6 +47,8 @@ Request
   ↓
 Response
 
+---
+
 ## ⚡ Quick Start
 
 ### 1️⃣ Run server with live tail
