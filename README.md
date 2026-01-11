@@ -45,24 +45,28 @@ Request
   - Minimal logic
   - Just consume Event
   ↓
-Response```
+Response
+```
 ## ⚡ Quick Start
 
 1️⃣ Run server with live tail
+```
 go run . serve --addr :8080 --tail
+```
 
 
---addr : Listen address (default :8080)
+- --addr : Listen address (default :8080)
 
---tail : Real-time output of incoming webhooks in the terminal
+- --tail : Real-time output of incoming webhooks in the terminal
 
 This starts the webhook receiver and displays incoming events live, like tail -f logs.
 
 2️⃣ Send a test webhook
+```
 curl -X POST http://localhost:8080/hooks/github \
   -H "X-GitHub-Event: push" \
   -d '{"ref":"main"}'
-
+```
 
 Expected output in terminal (if --tail is enabled):
 
@@ -72,9 +76,9 @@ Expected output in terminal (if --tail is enabled):
 go run . serve --addr :8080
 
 
-Webhooks are still received and stored in memory
+- Webhooks are still received and stored in memory
 
-No live output will appear
+- No live output will appear
 
-Can later inspect events via CLI or implement replay
+- Can later inspect events via CLI or implement replay
 
